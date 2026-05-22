@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resume Tailor — Settings</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="options">
+  <div class="wrap">
+    <header class="bar">
+      <div class="logo">
+        <div class="dot"></div>
+        <h1>Resume Tailor — Settings</h1>
+      </div>
+    </header>
+
+    <!-- 1. OpenAI -->
+    <div class="card">
+      <h2>1 · OpenAI</h2>
+      <p class="sub">Your key is stored locally in this browser and used only to call the OpenAI API.</p>
+      <label for="apiKey">OpenAI API key</label>
+      <input type="password" id="apiKey" placeholder="sk-…" autocomplete="off" />
+      <label for="model">Model</label>
+      <select id="model"></select>
+    </div>
+
+    <!-- 2. Save folder -->
+    <div class="card">
+      <h2>2 · Save folder</h2>
+      <p class="sub">Every generated resume PDF is written into this folder, named
+        <em>company + job title + timestamp</em>.</p>
+      <div class="file-pick">
+        <button type="button" id="pickFolder" class="btn-ghost">Choose folder…</button>
+        <span class="file-name" id="folderName">No folder selected</span>
+      </div>
+      <p class="hint" id="folderHint"></p>
+    </div>
+
+    <!-- 3. Contact & profile -->
+    <div class="card">
+      <h2>3 · Your details</h2>
+      <div class="grid2">
+        <div><label for="name">Full name</label><input type="text" id="name" /></div>
+        <div><label for="years">Total years of experience</label><input type="text" id="years" placeholder="e.g. 6" /></div>
+        <div><label for="email">Email</label><input type="text" id="email" /></div>
+        <div><label for="phone">Phone</label><input type="text" id="phone" /></div>
+        <div><label for="location">Location</label><input type="text" id="location" placeholder="City, Country" /></div>
+        <div><label for="linkedin">LinkedIn (optional)</label><input type="text" id="linkedin" /></div>
+        <div><label for="website">Website / GitHub (optional)</label><input type="text" id="website" /></div>
+      </div>
+      <label for="skillsKnown">Skills you already have (optional)</label>
+      <textarea id="skillsKnown" style="min-height:60px"
+        placeholder="Comma-separated. Helps GPT stay accurate; JD skills are added automatically."></textarea>
+    </div>
+
+    <!-- 4. Work experience -->
+    <div class="card">
+      <h2>4 · Work experience</h2>
+      <p class="sub">List roles most recent first. Notes are optional but make bullets far more accurate.</p>
+      <div id="expList"></div>
+      <button type="button" id="addExp" class="btn-ghost">+ Add role</button>
+    </div>
+
+    <!-- 5. Education -->
+    <div class="card">
+      <h2>5 · Education</h2>
+      <div id="eduList"></div>
+      <button type="button" id="addEdu" class="btn-ghost">+ Add education</button>
+    </div>
+
+    <!-- 6. Generation prompt -->
+    <div class="card">
+      <h2>6 · Generation prompt</h2>
+      <p class="sub">Instructions GPT follows when writing each resume.
+        <a class="link" id="resetPrompt">Reset to recommended</a></p>
+      <textarea id="promptBox"></textarea>
+    </div>
+
+    <button type="button" id="saveBtn" class="btn-primary">Save Settings</button>
+    <div id="saveStatus" class="status"></div>
+  </div>
+
+  <!-- row templates -->
+  <template id="expTpl">
+    <div class="entry">
+      <button type="button" class="entry-del" title="Remove">✕</button>
+      <div class="grid2">
+        <div><label>Company</label><input type="text" data-f="company" /></div>
+        <div><label>Job title</label><input type="text" data-f="title" /></div>
+        <div><label>Location</label><input type="text" data-f="location" /></div>
+        <div class="grid2 tight">
+          <div><label>Start</label><input type="text" data-f="start" placeholder="Jan 2022" /></div>
+          <div><label>End</label><input type="text" data-f="end" placeholder="Present" /></div>
+        </div>
+      </div>
+      <label>Key achievements / notes (optional)</label>
+      <textarea data-f="notes" style="min-height:54px"
+        placeholder="Real projects, scope, metrics — anything factual to ground the bullets."></textarea>
+    </div>
+  </template>
+
+  <template id="eduTpl">
+    <div class="entry">
+      <button type="button" class="entry-del" title="Remove">✕</button>
+      <div class="grid2">
+        <div><label>University / school</label><input type="text" data-f="school" /></div>
+        <div><label>Degree</label><input type="text" data-f="degree" /></div>
+        <div><label>Location</label><input type="text" data-f="location" /></div>
+        <div class="grid2 tight">
+          <div><label>Start</label><input type="text" data-f="start" placeholder="2016" /></div>
+          <div><label>End</label><input type="text" data-f="end" placeholder="2020" /></div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="src/constants.js"></script>
+  <script src="src/storage.js"></script>
+  <script src="src/fs.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
