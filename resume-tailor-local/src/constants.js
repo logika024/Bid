@@ -69,7 +69,30 @@ RT.OUTPUT_CONTRACT = `Return ONLY a JSON object of this exact shape:
 }
 "experienceBullets" must contain exactly one array per role, in the SAME ORDER as the roles given in the profile, each array holding that role's bullets.`;
 
-RT.MODELS = ["gpt-4o", "gpt-4o-mini", "gpt-4.1", "gpt-4.1-mini"];
+/* Defaults for the local inference server. Ollama's OpenAI-compatible
+   endpoint listens on http://localhost:11434/v1 out of the box. */
+RT.DEFAULT_BASE_URL = "http://localhost:11434/v1";
+RT.DEFAULT_MODEL    = "qwen2.5:7b";
+
+/* Suggested open-source models, surfaced via a datalist in the model field.
+   The user can type any model name their server has. Roughly ordered by the
+   quality-vs-hardware tradeoff for resume rewriting + structured JSON output. */
+RT.MODEL_SUGGESTIONS = [
+  // Lightweight (runs on 8 GB RAM, CPU is fine)
+  "phi3.5:3.8b",
+  "qwen2.5:3b",
+  // Sweet spot — strong instruction following + JSON, ~5-6 GB
+  "qwen2.5:7b",
+  "llama3.1:8b",
+  "mistral:7b",
+  // Higher quality, needs a decent GPU or lots of RAM
+  "qwen2.5:14b",
+  "mistral-nemo:12b",
+  // Top quality, GPT-4o-class, needs 24 GB+ VRAM
+  "qwen2.5:32b",
+  "llama3.3:70b",
+  "qwen2.5:72b",
+];
 
 /* Fixed section order for every generated resume. */
 RT.SECTION_ORDER = ["summary", "skills", "experience", "education"];

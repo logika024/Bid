@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resume Tailor — Designer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body.designer { min-height: 100vh; }
+    .designer .wrap { max-width: 1400px; margin: 0 auto; padding: 22px 22px 32px; }
+    .layout {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: 14px; min-height: calc(100vh - 140px);
+    }
+    .pane { display: flex; flex-direction: column; min-width: 0; }
+    .pane .toolbar {
+      display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
+    }
+    .pane .toolbar button { width: auto; flex: 0 0 auto; }
+    #jsonInput {
+      flex: 1; min-height: 520px;
+      font-family: "Consolas", "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11.5px; line-height: 1.45;
+      white-space: pre; tab-size: 2;
+    }
+    #preview {
+      flex: 1; min-height: 720px; border: 1px solid var(--border);
+      border-radius: 8px; background: #2a2f3c;
+    }
+    code { background: var(--card-2); padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+  </style>
+</head>
+<body class="designer">
+  <div class="wrap">
+    <header class="bar">
+      <div class="logo">
+        <div class="dot"></div>
+        <h1>Resume Tailor — Designer</h1>
+      </div>
+      <a class="link" href="options.html">← Back to Settings</a>
+    </header>
+
+    <p class="sub" style="margin-bottom:12px">
+      Paste or edit a resume JSON on the left to preview it in the styled
+      template. Wrap text with <code>**double asterisks**</code> inside any
+      bullet to bold it inline.
+    </p>
+
+    <div class="layout">
+      <div class="pane">
+        <div class="toolbar">
+          <button id="sampleBtn" class="btn-ghost">Load Milorad sample</button>
+          <button id="renderBtn" class="btn-primary">Render preview</button>
+          <button id="downloadBtn" class="btn-good">⬇ Download PDF</button>
+        </div>
+        <textarea id="jsonInput" spellcheck="false"></textarea>
+        <div id="status" class="status"></div>
+      </div>
+      <div class="pane">
+        <iframe id="preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="lib/pdfmake.min.js"></script>
+  <script src="lib/vfs_fonts.js"></script>
+  <script src="src/pdf-template-styled.js"></script>
+  <script src="src/sample-resume.js"></script>
+  <script src="designer.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="popup">
+  <div class="wrap">
+    <header class="bar">
+      <div class="logo">
+        <div class="dot"></div>
+        <h1>Resume Tailor Local</h1>
+      </div>
+      <button id="settingsBtn" class="icon-btn" title="Settings">⚙ Settings</button>
+    </header>
+
+    <!-- Shown when setup is incomplete -->
+    <section id="setupView" class="hidden">
+      <div class="notice" id="setupMsg"></div>
+      <button id="openSettings" class="btn-primary">Open Settings</button>
+    </section>
+
+    <!-- Main generation flow -->
+    <section id="mainView" class="hidden">
+      <div class="card">
+        <label for="jd">Job Description</label>
+        <textarea id="jd" placeholder="Paste the full job description here…"></textarea>
+        <p class="hint">Company &amp; position title are detected automatically from this text.</p>
+      </div>
+
+      <button id="generateBtn" class="btn-primary">Generate &amp; Save Resume</button>
+      <div id="status" class="status"></div>
+
+      <!-- Result -->
+      <div id="resultCard" class="card result hidden">
+        <h2>✓ Resume generated</h2>
+        <div class="kv"><span>Company</span><span id="rCompany">—</span></div>
+        <div class="kv"><span>Position</span><span id="rPosition">—</span></div>
+        <div class="kv"><span>File</span><span id="rFile">—</span></div>
+        <div id="saveNote" class="hint"></div>
+        <div style="height:10px"></div>
+        <button id="downloadBtn" class="btn-ghost" style="width:100%">⬇ Download a copy to Downloads</button>
+        <p class="hint">Open the PDF and review style, pagination &amp; spacing before sending.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- libraries -->
+  <script src="lib/pdfmake.min.js"></script>
+  <script src="lib/vfs_fonts.js"></script>
+  <!-- app -->
+  <script src="src/constants.js"></script>
+  <script src="src/storage.js"></script>
+  <script src="src/fs.js"></script>
+  <script src="src/llm.js"></script>
+  <script src="src/pdf-template.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

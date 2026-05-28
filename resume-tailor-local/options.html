@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Resume Tailor — Settings</title>
+  <title>Resume Tailor Local — Settings</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="options">
@@ -10,19 +10,38 @@
     <header class="bar">
       <div class="logo">
         <div class="dot"></div>
-        <h1>Resume Tailor — Settings</h1>
+        <h1>Resume Tailor Local — Settings</h1>
       </div>
       <a class="link" href="designer.html" target="_blank">Open Designer →</a>
     </header>
 
-    <!-- 1. OpenAI -->
+    <!-- 1. Local LLM server -->
     <div class="card">
-      <h2>1 · OpenAI</h2>
-      <p class="sub">Your key is stored locally in this browser and used only to call the OpenAI API.</p>
-      <label for="apiKey">OpenAI API key</label>
-      <input type="password" id="apiKey" placeholder="sk-…" autocomplete="off" />
-      <label for="model">Model</label>
-      <select id="model"></select>
+      <h2>1 · Local LLM server</h2>
+      <p class="sub">Point the extension at any OpenAI-compatible local server
+        — Ollama, LM Studio, llama.cpp <code>server</code>, vLLM, LocalAI.
+        Nothing leaves your machine.</p>
+
+      <label for="baseURL">Server base URL</label>
+      <input type="text" id="baseURL" placeholder="http://localhost:11434/v1" />
+      <p class="hint">
+        Ollama: <code>http://localhost:11434/v1</code> &nbsp;·&nbsp;
+        LM Studio: <code>http://localhost:1234/v1</code> &nbsp;·&nbsp;
+        llama.cpp: <code>http://localhost:8080/v1</code>
+      </p>
+
+      <label for="model">Model name</label>
+      <input type="text" id="model" list="modelSuggestions"
+        placeholder="qwen2.5:7b" />
+      <datalist id="modelSuggestions"></datalist>
+      <p class="hint">Whatever your server has loaded. Stronger models give better, more ATS-friendly resumes — 7B is the practical minimum; 14B+ is noticeably better.</p>
+
+      <label for="apiKey">API key (optional)</label>
+      <input type="password" id="apiKey" placeholder="Leave blank for Ollama / LM Studio defaults" autocomplete="off" />
+
+      <div style="height:10px"></div>
+      <button type="button" id="testBtn" class="btn-ghost">Test connection</button>
+      <div id="testStatus" class="status"></div>
     </div>
 
     <!-- 2. Save folder -->
@@ -51,7 +70,7 @@
       </div>
       <label for="skillsKnown">Skills you already have (optional)</label>
       <textarea id="skillsKnown" style="min-height:60px"
-        placeholder="Comma-separated. Helps GPT stay accurate; JD skills are added automatically."></textarea>
+        placeholder="Comma-separated. Helps the model stay accurate; JD skills are added automatically."></textarea>
     </div>
 
     <!-- 4. Work experience -->
@@ -72,7 +91,7 @@
     <!-- 6. Generation prompt -->
     <div class="card">
       <h2>6 · Generation prompt</h2>
-      <p class="sub">Instructions GPT follows when writing each resume.
+      <p class="sub">Instructions the model follows when writing each resume.
         <a class="link" id="resetPrompt">Reset to recommended</a></p>
       <textarea id="promptBox"></textarea>
     </div>
@@ -118,6 +137,7 @@
   <script src="src/constants.js"></script>
   <script src="src/storage.js"></script>
   <script src="src/fs.js"></script>
+  <script src="src/llm.js"></script>
   <script src="options.js"></script>
 </body>
 </html>
