@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume PDF Generator</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- ===================== Top bar ===================== -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">R</span>
+        <span>Resume PDF Generator</span>
+      </div>
+      <div class="topbar-right">
+        <div class="folder-pills">
+          <span class="pill" id="pillAll" title="All-resumes folder">
+            <span class="dot"></span><span class="pill-label">All&nbsp;folder</span>
+          </span>
+          <span class="pill" id="pillCv" title="CV folder">
+            <span class="dot"></span><span class="pill-label">CV&nbsp;folder</span>
+          </span>
+        </div>
+        <button class="btn ghost" id="openSettings">⚙ Settings</button>
+      </div>
+    </header>
+
+    <!-- ===================== Main split ===================== -->
+    <main class="split">
+      <!-- Left: form -->
+      <section class="panel form-panel">
+        <div class="row">
+          <div class="field">
+            <label for="jobTitle">Job Title <span class="req">*</span></label>
+            <input id="jobTitle" type="text" placeholder="Senior Software Engineer" />
+          </div>
+          <div class="field">
+            <label for="companyName">Company Name <span class="req">*</span></label>
+            <input id="companyName" type="text" placeholder="Acme Corp" />
+          </div>
+        </div>
+
+        <div class="field grow">
+          <label for="content">
+            Resume Content <span class="req">*</span>
+            <span class="muted small" id="parseHint"></span>
+          </label>
+          <textarea
+            id="content"
+            spellcheck="false"
+            placeholder="Paste the full resume content here — a name line, then Summary, Skills, Experience, Education…"
+          ></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="generateBtn">Generate &amp; Save</button>
+          <button class="btn ghost" id="refreshPreview">↻ Preview</button>
+          <span id="status" class="status"></span>
+        </div>
+      </section>
+
+      <!-- Right: live preview -->
+      <section class="panel preview-panel">
+        <div class="preview-head">
+          <span>Live Preview</span>
+          <div class="preview-actions">
+            <button class="btn ghost small" id="downloadBtn" disabled>⬇ Download</button>
+          </div>
+        </div>
+        <div class="preview-body">
+          <iframe id="preview" title="PDF preview"></iframe>
+          <div class="preview-empty" id="previewEmpty">
+            <div class="empty-art">📄</div>
+            <p>Your resume preview will appear here.</p>
+            <p class="muted small">Paste content on the left to see it render.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===================== Settings drawer ===================== -->
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <aside class="drawer" id="drawer">
+      <div class="drawer-head">
+        <h2>Settings</h2>
+        <button class="icon-btn" id="closeSettings">✕</button>
+      </div>
+      <div class="drawer-body">
+        <h3>Personal Details</h3>
+        <div class="field">
+          <label for="s_name">Full Name <span class="req">*</span></label>
+          <input id="s_name" type="text" placeholder="Joshua Adams" />
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="s_email">Email</label>
+            <input id="s_email" type="text" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="s_phone">Phone</label>
+            <input id="s_phone" type="text" placeholder="+1 555 123 4567" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="s_address">Address</label>
+          <input id="s_address" type="text" placeholder="City, State" />
+        </div>
+
+        <h3>Links <span class="muted small">(optional)</span></h3>
+        <div class="field">
+          <label for="s_linkedin">LinkedIn</label>
+          <input id="s_linkedin" type="text" placeholder="linkedin.com/in/…" />
+        </div>
+        <div class="field">
+          <label for="s_github">GitHub</label>
+          <input id="s_github" type="text" placeholder="github.com/…" />
+        </div>
+        <div class="field">
+          <label for="s_website">Website</label>
+          <input id="s_website" type="text" placeholder="example.com" />
+        </div>
+
+        <h3>Save Folders <span class="req">*</span></h3>
+        <p class="muted small" id="fsUnsupported" style="display: none">
+          ⚠ This browser can't write to folders. Use Chrome or Edge — otherwise
+          files will download instead.
+        </p>
+
+        <div class="folder-card" id="folderCardAll">
+          <div class="folder-card-head">
+            <strong>All generated resumes</strong>
+            <span class="folder-state" data-key="folderAll">Not connected</span>
+          </div>
+          <p class="muted small">Saved as <code>Company - Job Title - timestamp.pdf</code></p>
+          <div class="folder-card-actions">
+            <button class="btn ghost small" data-connect="folderAll">Connect folder…</button>
+            <button class="btn ghost small" data-forget="folderAll">Forget</button>
+          </div>
+        </div>
+
+        <div class="folder-card" id="folderCardCv">
+          <div class="folder-card-head">
+            <strong>CV folder</strong>
+            <span class="folder-state" data-key="folderCv">Not connected</span>
+          </div>
+          <div class="field" style="margin: 10px 0 6px">
+            <label for="s_cvFileName">CV file name <span class="req">*</span></label>
+            <input id="s_cvFileName" type="text" placeholder="Joshua Adams Backend" />
+          </div>
+          <p class="muted small">Saved as <code>&lt;name&gt;.pdf</code>, overwrites if it exists</p>
+          <div class="folder-card-actions">
+            <button class="btn ghost small" data-connect="folderCv">Connect folder…</button>
+            <button class="btn ghost small" data-forget="folderCv">Forget</button>
+          </div>
+        </div>
+      </div>
+      <div class="drawer-foot">
+        <button class="btn primary" id="saveSettings">Save Settings</button>
+        <span id="settingsStatus" class="status"></span>
+      </div>
+    </aside>
+
+    <!-- pdfmake (classic scripts → window.pdfMake), then app module -->
+    <script src="lib/pdfmake.min.js"></script>
+    <script src="lib/vfs_fonts.js"></script>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "resume-pdf-web",
+  "version": "1.0.0",
+  "description": "Browser-based resume PDF generator with live preview and folder saving via the File System Access API.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT"
+}
